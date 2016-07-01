@@ -1,12 +1,12 @@
-# W2D5 - Lecture
-
-## MongoDB
+# W2D5 - Lecture - MongoDB
 
 * Intro to databases (Why)
 * Intro to MongoDB
   * Server -> Databases -> Collections -> Docs
   * 
   * MongoDB from Node (demo)
+
+## Introduction
 
 ### Without actual databases
 
@@ -106,10 +106,6 @@ We can store whatever we want in the documents. Here is an visual example of a t
     - Doc: {username: 'pjama', ...}
 ```
 
-## Transactional functions/operations
-
-Mongo has functions on collections to allow us to CRUD (Create Read Update Delete) documents.
-
 ## Demo 1: Mongo shell / REPL
 
 We went over the mongo shell. Here are the commands we ran:
@@ -129,9 +125,10 @@ db.todos.find({id: ObjectId("unique-mongo-id-here")})
 We talked about how:
 
 - Mongo is very JS-centric. Most of the code we see in the shell above is JS code!
-- There are many other functions that you can look up in the documentation (how to search, insert multiple, delete, update, etc)
-- Mongo assigns an "_id" key/property to any document so we can uniquely identify it
+- Mongo has "transactional" functions on collections to allow us to CRUD (Create Read Update Delete) documents within those collections.
+- There are many other functions that you can look up in the documentation (how to search, insert multiple, batch delete, batch update, etc, etc)
 - Collections can just be viewed as properties of the `db` object (`db.todos` can also be written as `db.collection('todos')`) therefore their name is what uniquely identify them.
+- Mongo assigns an "_id" key/property to any document so we can uniquely identify it. More on this below.
 
 ## Primary Key
 
@@ -139,10 +136,9 @@ The `"_id"` is a "Primary Key" that uniquely identifies each object (document) w
 
 It is automatically added to any object we insert and we can use it to find single object from a collection (see example above).
 
-## Demo 2: Mongo shell / REPL
+## Demo 2: Simple Todo List APp (Express App using Mongo)
 
 We walked through the Todo Node/Express app which only has index, new/create and delete functionality. It uses Mongo as its data store and we went through the `app.js` file in detail to see how it does it.
-
 
 ## Client vs Server
 
