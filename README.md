@@ -147,7 +147,7 @@ The `"_id"` is a "Primary Key" that uniquely identifies each object (document) w
 
 It is automatically added to any object we insert and we can use it to find single object from a collection (see example above).
 
-## Demo 2: Simple Todo List APp (Express App using Mongo)
+## Demo 2: Simple Todo List (Express app w/ Mongo)
 
 We walked through the Todo Node/Express app which only has index, new/create and delete functionality. It uses Mongo as its data store and we went through the `app.js` file in detail to see how it does it.
 
