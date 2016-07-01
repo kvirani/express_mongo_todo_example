@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 8080;
 
 const Mongo       = require("mongodb")
 const MongoClient = Mongo.MongoClient;
-const MONGODB_URI = "mongodb://127.0.0.1:27017/todos";
+const MONGODB_URI = "mongodb://127.0.0.1:27017/todo_app";
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded());
@@ -24,6 +24,7 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
   dbInstance = db;
 });
 
+// Fetch from Mongo all todos
 app.get("/todos", (req, res) => {
   getAll(dbInstance, (err, results) => {
     const templateVars = {
@@ -33,6 +34,12 @@ app.get("/todos", (req, res) => {
   });
 });
 
+// Form to create new todo
+app.get("/todos/new", (req, res) => {
+  res.render("todos/new");
+});
+
+// Create new todo in Mongo
 app.post("/todos", (req, res) => {
   const desc = req.body.desc;
 
@@ -41,10 +48,8 @@ app.post("/todos", (req, res) => {
   });
 });
 
-app.get("/todos/new", (req, res) => {
-  res.render("todos/new");
-});
 
+// Delete by (mongo) ID
 app.delete("/todos/:id", (req, res) => {
   const id = req.params.id;
   remove(dbInstance, id, (err, result) => {
@@ -55,10 +60,8 @@ app.delete("/todos/:id", (req, res) => {
 
 /////////////////////
 
-
-
 function getAll(db, cb) {
-  db.todos.find().toArray((err, results) => {
+  db.collection("todos").find().toArray((err, results) => {
     return cb(err, results);
   });
 }
@@ -78,6 +81,10 @@ function remove(db, id, cb) {
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
+
+// The code below here is to make sure
+// That we close the conncetion to mongo
+// When this node process terminates
 
 function gracefulShutdown() {
   console.log("Shutting down gracefully...");
