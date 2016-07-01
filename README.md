@@ -151,7 +151,11 @@ It is automatically added to any object we insert and we can use it to find sing
 
 We walked through the Todo Node/Express app which only has index, new/create and delete functionality. It uses Mongo as its data store and we went through the `app.js` file in detail to see how it does it.
 
-## Client vs Server
+### The `dbInstance` (db connection)
+
+We see that our node app connects to a specific MongoDB database when it starts and there is a single connection passed into all the other helper functions like `insert`, `remove` and `getAll`
+
+### Client vs Server
 
 So far, we're used to seeing our node / express app as a Server when it comes to HTTP requests from the browser (Client). 
 
