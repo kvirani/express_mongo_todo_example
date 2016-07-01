@@ -38,15 +38,15 @@ Memory is (meant to be) volatile storage whereas disk (file system) is long term
 
 We need to serialize and persist this object to  disk ("file system").
 
-Either binary are text files are often used to store long term info.
+Either binary or text files are often used to store long term info.
 
 Ideally our app will persist this object on disk and then read/write from that file. 
 
-### Flat files
+### Flat text files
 
-Flat text files (like CSV files) are the simplest but least powerful approach.
+Flat text files (like CSV files) are the simplest but least powerful approach. 
 
-Comma separated values and it's just a text file that has each record on one line separated by commas. 
+CSV stands for Comma separated values. It's a text file that has each record on one line separated by commas. There is no hierarchy to the file, hence "flat".
 
 ```
 "abc", "http://"
