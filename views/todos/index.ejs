@@ -5,8 +5,11 @@
   </head>
   <body style="padding:40px;">
     <% include ../partials/_header %>
-    <a href="/todos/new">New Todo</a>
-    <table class="table">
+
+    <a href="/todos/new" class="btn btn-primary">New Todo</a>
+    <hr>
+
+    <table class="table table-bordered table-striped">
       <% for (todo of todos) { %>
         <tr>
           <td><%= todo.desc %></td>

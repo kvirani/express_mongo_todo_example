@@ -24,9 +24,16 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
   dbInstance = db;
 });
 
+//////////////////////
+
+// Just so home page doesn't 404 (annoying!)
+app.get('/', (req, res) => {
+  res.redirect('/todos');
+});
+
 // Fetch from Mongo all todos
 app.get("/todos", (req, res) => {
-  getAll(dbInstance, (err, results) => {
+  dbInstance.collection("todos").find().toArray((err, results) => {
     const templateVars = {
       todos: results
     };
@@ -41,50 +48,30 @@ app.get("/todos/new", (req, res) => {
 
 // Create new todo in Mongo
 app.post("/todos", (req, res) => {
-  const desc = req.body.desc;
-
-  insert(dbInstance, desc, (err) => {
+  const todo = { desc: req.body.desc, completed: false }; // mongo doc
+  dbInstance.collection("todos").insertOne(todo, (err, result) => {
     res.redirect("/todos");
   });
 });
-
 
 // Delete by (mongo) ID
 app.delete("/todos/:id", (req, res) => {
   const id = req.params.id;
-  remove(dbInstance, id, (err, result) => {
-    if (err) { console.error(err); }
+  let filter = { _id: Mongo.ObjectId(id) };
+  dbInstance.collection("todos").deleteOne(filter, (err, result) => {
+    // We need to handle errors better
+    if (err) { throw err; }
     res.redirect("/todos");
   });
 });
 
-/////////////////////
-
-function getAll(db, cb) {
-  db.collection("todos").find().toArray((err, results) => {
-    return cb(err, results);
-  });
-}
-
-function insert(db, desc, cb) {
-  const todo = { desc: desc, completed: false }; // mongo doc
-  db.collection("todos").insertOne(todo, (err, result) => {
-    cb(err, result);
-  });
-}
-
-function remove(db, id, cb) {
-  let filter = { _id: Mongo.ObjectId(id) };
-  db.collection("todos").deleteOne(filter, cb);
-}
+/////////////////
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
-// The code below here is to make sure
-// That we close the conncetion to mongo
-// When this node process terminates
+// The code below here is to make sure that we close the conncetion to mongo when this node process terminates
 
 function gracefulShutdown() {
   console.log("Shutting down gracefully...");
